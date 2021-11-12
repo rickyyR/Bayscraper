@@ -20,7 +20,7 @@ public class ServletRunner {
 
       if(items.size() > 0) {
         return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
-          "Scan for " + "[" + scrape + "]" + " complete!" + "</pre>";
+          "Scan for " + "[" + scrape + "]" + " complete!" + "<br>" + "Scraped " + items.size() + " items." + "</pre>";
       } else {
         return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
           "ERROR! No items found for " + "[" + scrape + "]" + " or scan blocked. Try again in a bit.";
@@ -28,7 +28,7 @@ public class ServletRunner {
 
     } else {
       return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
-        "-ERROR! No parameter. Please provide ?scrape=yourSearchHere at end of url.." ;
+        "-ERROR! No parameter. Please provide ?scrape=yourSearchHere at end of url..." ;
     }
   }
 }

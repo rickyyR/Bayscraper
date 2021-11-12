@@ -38,7 +38,7 @@ public abstract class Bayscraper {
         ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[5]/div[2]/div/div[2]/a") == null) {
         break;
       } else {
-        System.out.print("Scraping page " + pages.size() + 1 + "\r");
+        System.out.print("Scraping page " + (pages.size() + 1) + "\r");
         HtmlAnchor anchor = page.getFirstByXPath
           ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[5]/div[2]/div/div[2]/a");
         url = "https://www.ebay-kleinanzeigen.de" + anchor.getHrefAttribute();
@@ -89,7 +89,7 @@ public abstract class Bayscraper {
 
       if(!title.contains("Suche")) {
         items.add(li);
-        System.out.print("Item " + items.size() + 1 + "\r");
+        System.out.print("Item " + (items.size() + 1) + "\r");
       }
 
     }
