@@ -14,10 +14,10 @@ public abstract class Bayscraper {
   public static ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword) {
     System.out.println("Extracting pages from website.");
     ArrayList<HtmlPage> pages = Bayscraper.getPages(webClient, searchword);
-    System.out.println("Extracting items from pages.");
+    System.out.println("\r" + "Extracting items from pages.");
     ArrayList<ListingItem> items = Bayscraper.convertElementsToItems(getListingElementsFromPages(pages));
     if(items.size() > 0) {
-      System.out.println("SUCCESS! Scraped: " + items.size() + " items.");
+      System.out.println("\r" + "SUCCESS! Scraped: " + items.size() + " items.");
     } else {
       System.out.println("ERROR! No items found for " + "[" + searchword + "]" +" or scan blocked. Try again in a bit.");
     }
