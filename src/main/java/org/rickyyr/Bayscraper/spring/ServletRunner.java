@@ -23,7 +23,7 @@ public class ServletRunner {
           "Scan for " + "[" + scrape + "]" + " complete!" + "<br>" + "Scraped " + items.size() + " items." + "</pre>";
       } else {
         return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
-          "ERROR! No items found for " + "[" + scrape + "]" + " or scan blocked. Try again in a bit.";
+          "-ERROR! No items found for " + "[" + scrape + "]" + " or scan blocked. Try again in a bit.";
       }
 
     } else {
