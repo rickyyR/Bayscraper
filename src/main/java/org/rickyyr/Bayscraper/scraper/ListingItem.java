@@ -1,18 +1,33 @@
 package org.rickyyr.Bayscraper.scraper;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class ListingItem {
 
+  @Id
+  private Integer price;
   private String title;
-  private String url ;
-  private int price;
+  private String url;
 
-  public ListingItem(String title, String url, int price) {
-    this.init(title, url, price);
+
+  public ListingItem(String title, String url, Integer price) {
+    super();
+    this.price = price;
+    this.url = url;
+    this.title = title;
   }
 
-  private void init(String title, String url, int price){
-    this.title = title;
-    this.url = url;
+  public ListingItem() {
+
+  }
+
+  public Integer getPrice() {
+    return price;
+  }
+
+  public void setPrice(Integer price) {
     this.price = price;
   }
 
@@ -30,17 +45,5 @@ public class ListingItem {
 
   public void setUrl(String url) {
     this.url = url;
-  }
-
-  public int getPrice() {
-    return this.price;
-  }
-
-  public void setPrice(int price) {
-    this.price = price;
-  }
-
-  public String toString() {
-    return this.title + ": " + this.price + "\n" + this.url;
   }
 }
