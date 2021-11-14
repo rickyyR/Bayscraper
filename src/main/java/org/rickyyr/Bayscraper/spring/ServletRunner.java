@@ -15,6 +15,7 @@ public class ServletRunner {
   public String scraperService(@RequestParam(value = "scrape", defaultValue = "")String scrape) {
 
     if(!scrape.equals("")){
+
       System.out.println(scraperUi.printLogo());
       ArrayList<ListingItem> items = Bayscraper.getItemsForSearchword(browser.getBrowser(), scrape);
 
