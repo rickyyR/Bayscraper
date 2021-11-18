@@ -1,8 +1,8 @@
 package org.rickyyr.Bayscraper.scraper;
 
-public class Ui {
+public abstract class Ui {
 
-  public String printLogo() {
+  public static String printLogo() {
     return "__________                                                              " + "\n" +
       "\\______   \\_____  ___.__. ______ ________________  ______   ___________ " + "\n" +
       " |    |  _/\\__  \\<   |  |/  ___// ___\\_  __ \\__  \\ \\____ \\_/ __ \\_  __ \\" + "\n" +

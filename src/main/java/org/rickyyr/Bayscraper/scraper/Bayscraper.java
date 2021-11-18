@@ -14,20 +14,30 @@ public abstract class Bayscraper {
   public static JsonExporter<ListingItem> jsonExporter;
 
   public static ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword) {
+
     System.out.println("Extracting pages from website.");
+
     ArrayList<HtmlPage> pages = Bayscraper.getPages(webClient, searchword);
+
     System.out.println("Extracting items from pages.");
+
     ArrayList<ListingItem> items = Bayscraper.convertElementsToItems(getListingElementsFromPages(pages));
     if(items.size() > 0) {
+
       System.out.println("SUCCESS! Scraped: " + items.size() + " items." + "\n" + "Exporting to Json...");
+
       jsonExporter = new JsonExporter<>(searchword + "_ScrapedItems" + ".json");
       for(ListingItem l:items) {
+
         System.out.print("Item: " + items.indexOf(l) + "\r");
+
         jsonExporter.addObjectToList(l);
       }
+
       System.out.println("DONE! Please wait 5 minutes before scanning again to avoid getting blocked.");
 
     } else {
+
       System.out.println("ERROR! No items found for " + "[" + searchword + "]" +" or scan blocked. Try again in a bit.");
     }
 
@@ -47,7 +57,9 @@ public abstract class Bayscraper {
         ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[5]/div[2]/div/div[2]/a") == null) {
         break;
       } else {
+
         System.out.print("Page: " + (pages.size() + 1) + "\r");
+
         HtmlAnchor anchor = page.getFirstByXPath
           ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[5]/div[2]/div/div[2]/a");
         url = "https://www.ebay-kleinanzeigen.de" + anchor.getHrefAttribute();

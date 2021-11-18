@@ -8,7 +8,6 @@ import java.util.ArrayList;
 @RequestMapping(path = "/bayscraper")
 public class ServletRunner {
 
-  private Ui scraperUi = new Ui();
   private Browser browser = new Browser();
 
   @GetMapping(path="/")
@@ -16,22 +15,21 @@ public class ServletRunner {
 
     if(!scrape.equals("")){
 
-      System.out.println(scraperUi.printLogo());
       ArrayList<ListingItem> items = Bayscraper.getItemsForSearchword(browser.getBrowser(), scrape);
 
       if(items.size() > 0) {
 
-        return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
+        return "<pre>" + Ui.printLogo().replaceAll("\n", "<br>") + "<br>" +
           "Scan for " + "[" + scrape + "]" + " complete!" + "<br>" + "Scraped " + items.size() + " items." + "<br>" +
          "DONE! Please wait 5 minutes before scanning again to avoid getting blocked." + "</pre>";
 
       } else {
-        return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
+        return "<pre>" + Ui.printLogo().replaceAll("\n", "<br>") + "<br>" +
           "-ERROR! No items found for " + "[" + scrape + "]" + " or scan blocked. Try again in a bit.";
       }
 
     } else {
-      return "<pre>" + scraperUi.printLogo().replaceAll("\n", "<br>") + "<br>" +
+      return "<pre>" + Ui.printLogo().replaceAll("\n", "<br>") + "<br>" +
         "-ERROR! No parameter. Please provide ?scrape=yourSearchHere at end of url..." ;
     }
   }

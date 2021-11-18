@@ -1,16 +1,10 @@
 package org.rickyyr.Bayscraper.scraper;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class ListingItem {
 
-  @Id
   private Integer price;
   private String title;
   private String url;
-
 
   public ListingItem(String title, String url, Integer price) {
     super();
@@ -20,7 +14,6 @@ public class ListingItem {
   }
 
   public ListingItem() {
-
   }
 
   public Integer getPrice() {
