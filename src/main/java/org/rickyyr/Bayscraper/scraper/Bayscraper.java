@@ -5,9 +5,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlParagraph;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,14 +26,17 @@ public class Bayscraper {
     ArrayList<ListingItem> items = this.convertElementsToItems(getListingElementsFromPages(pages));
     if(items.size() > 0) {
 
-      System.out.println("SUCCESS! Scraped: " + items.size() + " items." + "\n" + "Exporting to Json...");
+      System.out.println("SUCCESS! Scraped: " + items.size() + " items." + "\n" + "Exporting to CSV...");
 
-      JsonExporter<ListingItem> jsonExporter = new JsonExporter<>(searchword + "_ScrapedItems" + ".json");
-      for(ListingItem l:items) {
-
-        System.out.print("Item: " + items.indexOf(l) + "\r");
-
-        jsonExporter.addObjectToList(l);
+      try {
+        FileWriter fileWriter = new FileWriter(searchword + ".csv");
+        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("Title", "Price", "Url"));
+        for(ListingItem i:items) {
+          csvPrinter.printRecord(i.getTitle(),i.getPrice(),i.getUrl());
+        }
+        csvPrinter.flush();
+      } catch (IOException e) {
+        e.printStackTrace();
       }
 
       System.out.println("DONE! Please wait 5 minutes before scanning again to avoid getting blocked.");
@@ -98,8 +101,8 @@ public class Bayscraper {
 
     for (HtmlElement h : pages) {
 
-      String url = "https://www.ebay-kleinanzeigen.de" + ((HtmlAnchor) h.getFirstByXPath("./div[2]/div[2]/h2/a")).getHrefAttribute();
-      String title = ((HtmlAnchor) h.getFirstByXPath("./div[2]/div[2]/h2/a")).getTextContent();
+      String url = "https://www.ebay-kleinanzeigen.de" + ((HtmlAnchor) h.getFirstByXPath("./div[2]/div[2]/h2/a")).getHrefAttribute().replaceAll(" ", "").replaceAll(",", "");
+      String title = ((HtmlAnchor) h.getFirstByXPath("./div[2]/div[2]/h2/a")).getTextContent().replaceAll(" ", "").replaceAll(",", "");
       String priceS = ((HtmlParagraph) h.getFirstByXPath("./div[2]/div[2]/p[2]")).getTextContent()
         .replaceAll("[^0-9]","");
       if(priceS.equals("")) {
