@@ -9,13 +9,14 @@ import java.util.ArrayList;
 public class ServletRunner {
 
   private Browser browser = new Browser();
+  private Bayscraper bayscraper = new Bayscraper();
 
   @GetMapping(path="/")
   public String scraperService(@RequestParam(value = "scrape", defaultValue = "")String scrape) {
 
     if(!scrape.equals("")){
 
-      ArrayList<ListingItem> items = Bayscraper.getItemsForSearchword(browser.getBrowser(), scrape);
+      ArrayList<ListingItem> items = bayscraper.getItemsForSearchword(browser.getBrowser(), scrape);
 
       if(items.size() > 0) {
 

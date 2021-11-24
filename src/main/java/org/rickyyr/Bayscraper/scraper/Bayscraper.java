@@ -5,28 +5,30 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlParagraph;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Bayscraper {
+public class Bayscraper {
 
-  public static JsonExporter<ListingItem> jsonExporter;
-
-  public static ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword) {
+  public ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword) {
 
     System.out.println("Extracting pages from website.");
 
-    ArrayList<HtmlPage> pages = Bayscraper.getPages(webClient, searchword);
+    ArrayList<HtmlPage> pages = this.getPages(webClient, searchword);
 
     System.out.println("Extracting items from pages.");
 
-    ArrayList<ListingItem> items = Bayscraper.convertElementsToItems(getListingElementsFromPages(pages));
+    ArrayList<ListingItem> items = this.convertElementsToItems(getListingElementsFromPages(pages));
     if(items.size() > 0) {
 
       System.out.println("SUCCESS! Scraped: " + items.size() + " items." + "\n" + "Exporting to Json...");
 
-      jsonExporter = new JsonExporter<>(searchword + "_ScrapedItems" + ".json");
+      JsonExporter<ListingItem> jsonExporter = new JsonExporter<>(searchword + "_ScrapedItems" + ".json");
       for(ListingItem l:items) {
 
         System.out.print("Item: " + items.indexOf(l) + "\r");
@@ -44,42 +46,41 @@ public abstract class Bayscraper {
     return items;
   }
 
-  public static ArrayList<HtmlPage> getPages(WebClient webClient, String searchword) {
+  private ArrayList<HtmlPage> getPages(WebClient webClient, String searchword) {
+
+    int siteHelperInt = 1;
 
     String url = "https://www.ebay-kleinanzeigen.de/s-" + searchword + "/k0";
     ArrayList<HtmlPage> pages = new ArrayList<>();
-    boolean iterating = true;
 
-    while (iterating) {
+    while (true) {
       HtmlPage page = getSinglePage(webClient, url);
-      pages.add(page);
       if(page.getFirstByXPath
-        ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[5]/div[2]/div/div[2]/a") == null) {
-        break;
+        ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[3]") != null) {
+        pages.add(page);
+        System.out.println("Page added! " + siteHelperInt);
+        url = "https://www.ebay-kleinanzeigen.de/s-seite" + siteHelperInt + "/" + searchword + "/k0" + "\r";
+        siteHelperInt++;
       } else {
-
-        System.out.print("Page: " + (pages.size() + 1) + "\r");
-
-        HtmlAnchor anchor = page.getFirstByXPath
-          ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[5]/div[2]/div/div[2]/a");
-        url = "https://www.ebay-kleinanzeigen.de" + anchor.getHrefAttribute();
+        System.out.println("No Listings found on page, breaking...");
+        break;
       }
     }
 
     return pages;
   }
 
-  public static HtmlPage getSinglePage(WebClient webClient, String url) {
+  public HtmlPage getSinglePage(WebClient webClient, String url) {
     HtmlPage page = null;
     try {
       page = webClient.getPage(url);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("ERROR! " + url + " Not found.");
     }
     return page;
   }
 
-  public static ArrayList<HtmlElement> getListingElementsFromPages(ArrayList<HtmlPage> pages) {
+  private ArrayList<HtmlElement> getListingElementsFromPages(ArrayList<HtmlPage> pages) {
 
     ArrayList<HtmlElement> allElements = new ArrayList<>();
 
@@ -91,7 +92,7 @@ public abstract class Bayscraper {
     return allElements;
   }
 
-  public static ArrayList<ListingItem> convertElementsToItems(List<HtmlElement> pages) {
+  private ArrayList<ListingItem> convertElementsToItems(List<HtmlElement> pages) {
 
     ArrayList<ListingItem> items  = new ArrayList<>();
 
@@ -116,5 +117,9 @@ public abstract class Bayscraper {
     }
 
     return items;
+  }
+
+  private void createLogFile() throws IOException {
+    FileWriter fileWriter = new FileWriter("Bayscraper_log.txt");
   }
 }
