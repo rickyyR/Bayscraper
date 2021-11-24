@@ -119,7 +119,4 @@ public class Bayscraper {
     return items;
   }
 
-  private void createLogFile() throws IOException {
-    FileWriter fileWriter = new FileWriter("Bayscraper_log.txt");
-  }
 }
