@@ -19,7 +19,7 @@ public class ServletRunner {
 
     if(!scrape.equals("")){
       System.out.print(Ui.printScrapeStarted(scrape));
-      ArrayList<ListingItem> items = bayscraper.getItemsForSearchword(browser.getBrowser(), scrape,
+      ArrayList<ListingItem> items = this.bayscraper.getItemsForSearchword(this.browser.getBrowser(), scrape,
         logger.getCurrentDate(), logger.getCurrentTime());
 
       if(items.size() > 0) {

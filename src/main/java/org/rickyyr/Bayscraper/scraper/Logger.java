@@ -30,7 +30,7 @@ public class Logger {
       .withLocale(Locale.getDefault())
       .withZone(ZoneId.systemDefault());
 
-    String dateAndTime = formatter.format(Instant.now());
+    String dateAndTime = this.formatter.format(Instant.now());
     String[] splitted = dateAndTime.split(",");
     this.currentDateAndTime = new String[]{splitted[0].replaceAll("\\s+", ""),
       splitted[1].replaceAll("\\s+", "")};

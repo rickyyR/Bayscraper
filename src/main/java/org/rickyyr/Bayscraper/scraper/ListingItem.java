@@ -13,9 +13,6 @@ public class ListingItem {
     this.title = title;
   }
 
-  public ListingItem() {
-  }
-
   public Integer getPrice() {
     return price;
   }

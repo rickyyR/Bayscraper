@@ -28,7 +28,9 @@ public class Bayscraper {
         for(ListingItem i:items) {
           csvPrinter.printRecord(i.getTitle(),i.getPrice(),i.getUrl());
         }
+
         csvPrinter.flush();
+
       } catch (IOException e) {
         e.printStackTrace();
       }
