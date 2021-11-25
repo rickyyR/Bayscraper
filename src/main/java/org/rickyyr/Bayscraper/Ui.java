@@ -1,4 +1,4 @@
-package org.rickyyr.Bayscraper.scraper;
+package org.rickyyr.Bayscraper;
 
 public abstract class Ui {
 
