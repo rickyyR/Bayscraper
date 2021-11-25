@@ -49,8 +49,6 @@ public class Logger {
       .append(" Items.")
       .append("\n");
 
-    System.out.println(stringBuilder);
-
     try {
       this.bufferedWriter.write(this.stringBuilder.toString());
       this.stringBuilder.setLength(0);
@@ -102,6 +100,14 @@ public class Logger {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public String getCurrentDate() {
+    return this.currentDateAndTime[0];
+  }
+
+  public String getCurrentTime() {
+    return this.currentDateAndTime[1];
   }
 
 }

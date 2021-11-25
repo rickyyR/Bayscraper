@@ -7,7 +7,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlParagraph;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,22 +14,17 @@ import java.util.List;
 
 public class Bayscraper {
 
-  public ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword) {
-
-    System.out.println("Extracting pages from website.");
+  public ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword, String date, String time) {
 
     ArrayList<HtmlPage> pages = this.getPages(webClient, searchword);
-
-    System.out.println("Extracting items from pages.");
-
     ArrayList<ListingItem> items = this.convertElementsToItems(getListingElementsFromPages(pages));
+
     if(items.size() > 0) {
-
-      System.out.println("SUCCESS! Scraped: " + items.size() + " items." + "\n" + "Exporting to CSV...");
-
       try {
-        FileWriter fileWriter = new FileWriter(searchword + ".csv");
+        FileWriter fileWriter = new FileWriter(searchword  + date.replaceAll("\\.", "") +
+          time.replaceAll(":", "") + ".csv");
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("Title", "Price", "Url"));
+
         for(ListingItem i:items) {
           csvPrinter.printRecord(i.getTitle(),i.getPrice(),i.getUrl());
         }
@@ -39,11 +33,6 @@ public class Bayscraper {
         e.printStackTrace();
       }
 
-      System.out.println("DONE! Please wait 5 minutes before scanning again to avoid getting blocked.");
-
-    } else {
-
-      System.out.println("ERROR! No items found for " + "[" + searchword + "]" +" or scan blocked. Try again in a bit.");
     }
 
     return items;
@@ -55,26 +44,16 @@ public class Bayscraper {
     ArrayList<String> linksToPages = new ArrayList<>();
     ArrayList<HtmlPage> pages = new ArrayList<>();
 
-    System.out.println("-PROCESSING PAGES-");
-
     while(true) {
 
       HtmlPage page = getSinglePage(webClient, url);
       HtmlAnchor nextSiteAnch =  page.getFirstByXPath("//span[@class='pagination-current']/following-sibling::a[1]");
-
       pages.add(page);
 
-      System.out.println("Page: " + pages.size() + " added.");
-
       if(nextSiteAnch != null) {
-        System.out.println("Following page found!");
         url = "https://www.ebay-kleinanzeigen.de" + nextSiteAnch.getHrefAttribute();
 
-      } else {
-
-        System.out.println("No following page found, breaking!");
-        break;
-      }
+      } else {break;}
     }
 
     return pages;
@@ -82,11 +61,13 @@ public class Bayscraper {
 
   public HtmlPage getSinglePage(WebClient webClient, String url) {
     HtmlPage page = null;
+
     try {
       page = webClient.getPage(url);
     } catch (IOException e) {
-      System.out.println("ERROR! " + url + " Not found.");
+      e.printStackTrace();
     }
+
     return page;
   }
 
@@ -107,7 +88,6 @@ public class Bayscraper {
     ArrayList<ListingItem> items  = new ArrayList<>();
 
     for (HtmlElement h : pages) {
-
       String url = "https://www.ebay-kleinanzeigen.de" + ((HtmlAnchor) h.getFirstByXPath("./div[2]/div[2]/h2/a")).getHrefAttribute().replaceAll(" ", "").replaceAll(",", "");
       String title = ((HtmlAnchor) h.getFirstByXPath("./div[2]/div[2]/h2/a")).getTextContent().replaceAll(" ", "").replaceAll(",", "");
       String priceS = ((HtmlParagraph) h.getFirstByXPath("./div[2]/div[2]/p[2]")).getTextContent()
@@ -118,15 +98,12 @@ public class Bayscraper {
       int price = Integer.parseInt(priceS);
 
       ListingItem li = new ListingItem(title, url, price);
-
       if(!title.contains("Suche")) {
         items.add(li);
-        System.out.print("Item: " + (items.size() + 1) + "\r");
       }
 
     }
 
     return items;
   }
-
 }

@@ -14,28 +14,23 @@ public class ServletRunner {
   @GetMapping(path="/")
   public String scraperService(@RequestParam(value = "scrape", defaultValue = "")String scrape) {
 
-
-
-    Logger logger = new Logger("testLog.txt");
-
-
+    Logger logger = new Logger("ScraperLog.txt");
 
     if(!scrape.equals("")){
-
-      ArrayList<ListingItem> items = bayscraper.getItemsForSearchword(browser.getBrowser(), scrape);
+      System.out.print(Ui.printScrapeStarted(scrape));
+      ArrayList<ListingItem> items = bayscraper.getItemsForSearchword(browser.getBrowser(), scrape,
+        logger.getCurrentDate(), logger.getCurrentTime());
 
       if(items.size() > 0) {
-
         logger.logSuccessfulScan(scrape, String.valueOf(items.size()));
-
+        System.out.print(Ui.printScrapeFinished(scrape, String.valueOf(items.size())));
         return "<pre>" + Ui.printLogo().replaceAll("\n", "<br>") + "<br>" +
           "Scan for " + "[" + scrape + "]" + " complete!" + "<br>" + "Scraped " + items.size() + " items." + "<br>" +
          "DONE! Please wait 5 minutes before scanning again to avoid getting blocked." + "</pre>";
 
       } else {
-
         logger.logEmptyOrBlockedScan(scrape);
-
+        System.out.print(Ui.printScrapeFailed(scrape));
         return "<pre>" + Ui.printLogo().replaceAll("\n", "<br>") + "<br>" +
           "-ERROR! No items found for " + "[" + scrape + "]" + " or scan blocked. Try again in a bit.";
       }

@@ -12,5 +12,16 @@ public abstract class Ui {
       "<--------------------------------org.rickyyr---------------------------->" +"\n";
   }
 
+  public static String printScrapeStarted(String searchword) {
+    return "Scan for [" + searchword + "] started!" + "\r";
+  }
+
+  public static String printScrapeFinished(String searchword, String numberOfScrapedItems) {
+    return "Scan for [" + searchword +"] complete! Scraped: " + numberOfScrapedItems + " items." + "\r";
+  }
+
+  public static String printScrapeFailed(String searchword) {
+    return "Scan for [" + searchword + "] failed!" + "\r";
+  }
 
 }
