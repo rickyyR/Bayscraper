@@ -55,25 +55,26 @@ public class Bayscraper {
     ArrayList<String> linksToPages = new ArrayList<>();
     ArrayList<HtmlPage> pages = new ArrayList<>();
 
-    System.out.println("Processing first page...");
+    System.out.println("-PROCESSING PAGES-");
 
-    HtmlPage page = getSinglePage(webClient, url);
-    pages.add(page);
+    while(true) {
 
-    System.out.println("Getting links...");
+      HtmlPage page = getSinglePage(webClient, url);
+      HtmlAnchor nextSiteAnch =  page.getFirstByXPath("//span[@class='pagination-current']/following-sibling::a[1]");
 
-    List<HtmlAnchor> anchs = page.getByXPath("//a[@class='pagination-page']");
+      pages.add(page);
 
-    for(HtmlAnchor a:anchs) {
-      System.out.println(a.getHrefAttribute());
-      linksToPages.add("https://www.ebay-kleinanzeigen.de" + a.getHrefAttribute());
-    }
+      System.out.println("Page: " + pages.size() + " added.");
 
-    System.out.println("Getting pages...");
+      if(nextSiteAnch != null) {
+        System.out.println("Following page found!");
+        url = "https://www.ebay-kleinanzeigen.de" + nextSiteAnch.getHrefAttribute();
 
-    for(String s:linksToPages) {
-      pages.add(this.getSinglePage(webClient, s));
-      System.out.println(pages.size());
+      } else {
+
+        System.out.println("No following page found, breaking!");
+        break;
+      }
     }
 
     return pages;
