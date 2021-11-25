@@ -23,5 +23,4 @@ public abstract class Ui {
   public static String printScrapeFailed(String searchword) {
     return "Scan for [" + searchword + "] failed!" + "\r";
   }
-
 }
