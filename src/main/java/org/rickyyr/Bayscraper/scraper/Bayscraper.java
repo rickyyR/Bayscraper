@@ -51,23 +51,29 @@ public class Bayscraper {
 
   private ArrayList<HtmlPage> getPages(WebClient webClient, String searchword) {
 
-    int siteHelperInt = 1;
-
     String url = "https://www.ebay-kleinanzeigen.de/s-" + searchword + "/k0";
+    ArrayList<String> linksToPages = new ArrayList<>();
     ArrayList<HtmlPage> pages = new ArrayList<>();
 
-    while (true) {
-      HtmlPage page = getSinglePage(webClient, url);
-      if(page.getFirstByXPath
-        ("./html/body/div[1]/div[2]/div/div[3]/div[2]/div[3]") != null) {
-        pages.add(page);
-        System.out.println("Page added! " + siteHelperInt);
-        url = "https://www.ebay-kleinanzeigen.de/s-seite" + siteHelperInt + "/" + searchword + "/k0" + "\r";
-        siteHelperInt++;
-      } else {
-        System.out.println("No Listings found on page, breaking...");
-        break;
-      }
+    System.out.println("Processing first page...");
+
+    HtmlPage page = getSinglePage(webClient, url);
+    pages.add(page);
+
+    System.out.println("Getting links...");
+
+    List<HtmlAnchor> anchs = page.getByXPath("//a[@class='pagination-page']");
+
+    for(HtmlAnchor a:anchs) {
+      System.out.println(a.getHrefAttribute());
+      linksToPages.add("https://www.ebay-kleinanzeigen.de" + a.getHrefAttribute());
+    }
+
+    System.out.println("Getting pages...");
+
+    for(String s:linksToPages) {
+      pages.add(this.getSinglePage(webClient, s));
+      System.out.println(pages.size());
     }
 
     return pages;
