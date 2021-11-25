@@ -1,2 +1,2 @@
 # HtmlUnit_SpringServlet_WebScraper_Prototype
-Some project i am playing with. Using [HtmlUnit](https://htmlunit.sourceforge.io/), [Gson](https://github.com/google/gson) and [Spring](https://spring.io/) to scan listings from [eBay Kleinanzeigen](https://www.ebay-kleinanzeigen.de/) and save them to .json. Run as a servlet with Spring!
+Some project i am playing with. Using HtmlUnit and Spring to scan listings from "eBay Kleinanzeigen" and save them to .csv. Run as a servlet with Spring! 
