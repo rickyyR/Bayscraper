@@ -16,7 +16,7 @@ public class Bayscraper {
 
 
   public ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword, String date, String time) {
-
+    Ui.cleanOutput();
     Ui.printCrawlingPages();
     ArrayList<HtmlPage> pages = this.getPages(webClient, searchword);
     Ui.printExtractingItems();

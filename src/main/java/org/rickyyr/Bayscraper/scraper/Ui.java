@@ -12,10 +12,6 @@ public abstract class Ui {
       "<--------------------------------org.rickyyr---------------------------->" + "\n";
   }
 
-  public static void printScanStarted(String searchword) {
-    System.out.print("Scan for [" + searchword + "] started. \r");
-  }
-
   public static void printScanFinished(String searchword, int itemsScanned) {
     System.out.print("Scan for [" + searchword + "] complete! Scraped [" + itemsScanned + "] items. \r");
   }
@@ -34,5 +30,9 @@ public abstract class Ui {
 
   public static void printWritingToCSV() {
     System.out.print("Writing to .csv \r");
+  }
+
+  public static void cleanOutput() {
+    System.out.print("                                                                     \r" );
   }
 }
