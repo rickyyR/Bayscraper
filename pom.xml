@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.rickyyr</groupId>
 	<artifactId>Bayscraper</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>AlphaVersion</version>
 	<name>Bayscraper</name>
 	<description>Spring + HtmlUnit eBay Scraper</description>
 	<properties>
