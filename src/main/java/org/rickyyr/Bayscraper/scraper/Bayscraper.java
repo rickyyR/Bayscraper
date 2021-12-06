@@ -14,12 +14,17 @@ import java.util.List;
 
 public class Bayscraper {
 
+
   public ArrayList<ListingItem> getItemsForSearchword(WebClient webClient, String searchword, String date, String time) {
 
+    Ui.printCrawlingPages();
     ArrayList<HtmlPage> pages = this.getPages(webClient, searchword);
+    Ui.printExtractingItems();
     ArrayList<ListingItem> items = this.convertElementsToItems(getListingElementsFromPages(pages));
 
     if(items.size() > 0) {
+      Ui.printWritingToCSV();
+
       try {
         FileWriter fileWriter = new FileWriter(searchword  + date.replaceAll("\\.", "") +
           time.replaceAll(":", "") + ".csv");
@@ -28,16 +33,18 @@ public class Bayscraper {
         for(ListingItem i:items) {
           csvPrinter.printRecord(i.getTitle(),i.getPrice(),i.getUrl());
         }
-
         csvPrinter.flush();
 
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      } catch (IOException e) {e.printStackTrace();}
 
+    } else {
+      Ui.printErrorMessage(searchword);
+      return items;
     }
 
+    Ui.printScanFinished(searchword, items.size());
     return items;
+
   }
 
   private ArrayList<HtmlPage> getPages(WebClient webClient, String searchword) {
@@ -108,4 +115,5 @@ public class Bayscraper {
 
     return items;
   }
+
 }

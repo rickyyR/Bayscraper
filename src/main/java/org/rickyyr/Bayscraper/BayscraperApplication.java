@@ -1,5 +1,6 @@
 package org.rickyyr.Bayscraper;
 
+import org.rickyyr.Bayscraper.scraper.Ui;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
