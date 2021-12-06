@@ -21,15 +21,15 @@ public abstract class Ui {
   }
 
   public static void printCrawlingPages() {
-    System.out.print("Crawling Pages \r");
+    System.out.print("Crawling Pages. \r");
   }
 
   public static void printExtractingItems() {
-    System.out.print("Extracting items \r");
+    System.out.print("Extracting items. \r");
   }
 
   public static void printWritingToCSV() {
-    System.out.print("Writing to .csv \r");
+    System.out.print("Writing to .csv. \r");
   }
 
   public static void cleanOutput() {

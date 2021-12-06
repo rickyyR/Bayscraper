@@ -14,7 +14,7 @@ public class BayscraperApplication {
 		SpringApplication.run(BayscraperApplication.class, args);
 
 		System.out.println(Ui.printLogo() + "\n" +
-			"Connect to localhost:8080/bayscraper/ Pass search parameter with '?scrape=YourSearchWord'");
+			"Connect to thisMachinesIP:8080/bayscraper/ Pass search parameter with '?scrape=YourSearchWord'");
 	}
 
 }
