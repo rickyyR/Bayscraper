@@ -68,7 +68,7 @@ public class Bayscraper {
     return pages;
   }
 
-  public HtmlPage getSinglePage(WebClient webClient, String url) {
+  private HtmlPage getSinglePage(WebClient webClient, String url) {
     HtmlPage page = null;
 
     try {
