@@ -1,2 +1,4 @@
-# HtmlUnit_SpringServlet_WebScraper_Prototype
-Some project i am playing with. Using HtmlUnit and Spring to scan listings from "eBay Kleinanzeigen" and save them to .csv. Run as a servlet with Spring! 
+# Welcome to the Bayscraper alpha.
+Bayscraper is a simple tool to scrape/get listing from eBay Kleinanzeigen and save them to CSV.
+
+[Download](https://github.com/rickyyR/Bayscraper/releases)
